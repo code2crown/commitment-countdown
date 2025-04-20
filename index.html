@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commitment Countdown</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      font-family: 'Arial', sans-serif;
+      flex-direction: column;
+    }
+
+    .message {
+      font-size: clamp(1.2rem, 3vw, 2.5rem);
+      margin-bottom: 2vh;
+      max-width: 90vw;
+      line-height: 1.5;
+    }
+
+    #countdown {
+      font-size: clamp(2rem, 8vw, 8rem);
+    }
+
+    .time {
+      display: inline-block;
+      margin: 0 1vw;
+    }
+
+    .label {
+      display: block;
+      font-size: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="message" id="dailyMessage">
+    Loading commitment...
+  </div>
+
+  <div id="countdown">
+    <div class="time" id="days">00<span class="label">Days</span></div>
+    <div class="time" id="hours">00<span class="label">Hours</span></div>
+    <div class="time" id="minutes">00<span class="label">Minutes</span></div>
+    <div class="time" id="seconds">00<span class="label">Seconds</span></div>
+  </div>
+
+  <script>
+    // Commitment Messages
+    const messages = [
+      "Main apne aaj ke version ko har din peeche chhodunga. 2025 ke end tak, main woh ban chuka hounga jise kal tak sirf socha karta tha.",
+      "Ye timer sirf waqt ka nahi, meri dedication ka saboot hai. Main har second mein apna ek naya version likh raha hoon — unstoppable, unshakable, and unforgettable.",
+      "31 July 2025... us din main duniya ko apna naya roop dikhaunga. Ab har din ek kasam hai, har raat ek preparation.",
+      "Main haar nahi manunga, rukunga nahi, thakunga nahi — kyunki main bana hoon kuch alag karne ke liye. Ye countdown meri transformation ka signal hai.",
+      "Mera junoon ab sabar hai. 2025 ke aakhri din tak, main apne aap ko ek aise version mein badal chuka hounga jise duniya pehchane bina reh nahi sakti. Ye commitment hai, kisi aur se nahi — sirf apne aap se."
+    ];
+
+    // Show daily commitment based on day of year
+    const today = new Date();
+    const start = new Date(today.getFullYear(), 0, 0);
+    const diff = today - start;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const dayOfYear = Math.floor(diff / oneDay);
+
+    const messageIndex = dayOfYear % messages.length;
+    document.getElementById("dailyMessage").innerText = messages[messageIndex];
+
+    // Countdown Logic
+    const countdown = () => {
+      const endDate = new Date("July 31, 2025 23:59:59").getTime();
+      const now = new Date().getTime();
+      const timeLeft = endDate - now;
+
+      if (timeLeft <= 0) {
+        document.getElementById("countdown").innerHTML = "Mission Complete!";
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerHTML = `${String(days).padStart(2, '0')}<span class="label">Days</span>`;
+      document.getElementById("hours").innerHTML = `${String(hours).padStart(2, '0')}<span class="label">Hours</span>`;
+      document.getElementById("minutes").innerHTML = `${String(minutes).padStart(2, '0')}<span class="label">Minutes</span>`;
+      document.getElementById("seconds").innerHTML = `${String(seconds).padStart(2, '0')}<span class="label">Seconds</span>`;
+    };
+
+    countdown(); // Initial call
+    setInterval(countdown, 1000); // Update every second
+  </script>
+</body>
+</html>
