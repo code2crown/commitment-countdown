@@ -26,13 +26,29 @@
 
     .message {
       font-size: clamp(1.2rem, 3vw, 2.5rem);
-      margin-bottom: 2vh;
+      margin-bottom: 3vh;
       max-width: 90vw;
       line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid white;
+      width: 0;
+      animation: typing 4s steps(40, end), blink 0.7s step-end infinite;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
 
     #countdown {
       font-size: clamp(2rem, 8vw, 8rem);
+      text-shadow: 0 0 10px white, 0 0 20px white;
     }
 
     .time {
@@ -58,15 +74,10 @@
     <div class="time" id="seconds">00<span class="label">Seconds</span></div>
   </div>
 
+<!--   Load message First  -->
+  <script src = "./messages.js"></script>
+
   <script>
-    // Commitment Messages
-    const messages = [
-      "Main apne aaj ke version ko har din peeche chhodunga. 2025 ke end tak, main woh ban chuka hounga jise kal tak sirf socha karta tha.",
-      "Ye timer sirf waqt ka nahi, meri dedication ka saboot hai. Main har second mein apna ek naya version likh raha hoon — unstoppable, unshakable, and unforgettable.",
-      "31 July 2025... us din main duniya ko apna naya roop dikhaunga. Ab har din ek kasam hai, har raat ek preparation.",
-      "Main haar nahi manunga, rukunga nahi, thakunga nahi — kyunki main bana hoon kuch alag karne ke liye. Ye countdown meri transformation ka signal hai.",
-      "Mera junoon ab sabar hai. 2025 ke aakhri din tak, main apne aap ko ek aise version mein badal chuka hounga jise duniya pehchane bina reh nahi sakti. Ye commitment hai, kisi aur se nahi — sirf apne aap se."
-    ];
 
     // Show daily commitment based on day of year
     const today = new Date();
@@ -76,7 +87,16 @@
     const dayOfYear = Math.floor(diff / oneDay);
 
     const messageIndex = dayOfYear % messages.length;
-    document.getElementById("dailyMessage").innerText = messages[messageIndex];
+    // document.getElementById("dailyMessage").innerText = messages[messageIndex];
+    // Typing effect logic
+    const messageEl = document.getElementById("dailyMessage");
+    const fullText = messages[messageIndex];
+    messageEl.style.animation = "none"; // Reset animation
+
+    setTimeout(() => {
+      messageEl.textContent = fullText;
+      messageEl.style.animation = "typing 4s steps(40, end), blink 0.7s step-end infinite";
+    }, 100); // Add delay for animation re-trigger
 
     // Countdown Logic
     const countdown = () => {
