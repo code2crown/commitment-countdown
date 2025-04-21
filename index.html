@@ -12,7 +12,7 @@
     }
 
     body {
-      background-color: #ff0000;
+      background-color: black;
       color: white;
       height: 100vh;
       display: flex;
@@ -29,26 +29,10 @@
       margin-bottom: 3vh;
       max-width: 90vw;
       line-height: 1.5;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid white;
-      width: 0;
-      animation: typing 4s steps(40, end), blink 0.7s step-end infinite;
-      text-shadow: 0 0 10px white, 0 0 20px white;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
     }
 
     #countdown {
       font-size: clamp(2rem, 8vw, 8rem);
-      text-shadow: 0 0 10px white, 0 0 20px white;
     }
 
     .time {
@@ -87,16 +71,7 @@
     const dayOfYear = Math.floor(diff / oneDay);
 
     const messageIndex = dayOfYear % messages.length;
-    // document.getElementById("dailyMessage").innerText = messages[messageIndex];
-    // Typing effect logic
-    const messageEl = document.getElementById("dailyMessage");
-    const fullText = messages[messageIndex];
-    messageEl.style.animation = "none"; // Reset animation
-
-    setTimeout(() => {
-      messageEl.textContent = fullText;
-      messageEl.style.animation = "typing 4s steps(40, end), blink 0.7s step-end infinite";
-    }, 100); // Add delay for animation re-trigger
+    document.getElementById("dailyMessage").innerText = messages[messageIndex];
 
     // Countdown Logic
     const countdown = () => {
